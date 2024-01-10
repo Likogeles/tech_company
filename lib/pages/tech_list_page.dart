@@ -12,7 +12,6 @@ class TechListPage extends StatefulWidget {
 
 class _TechListPageState extends State<TechListPage> {
   TechList techList = TechList();
-  TextEditingController findTechFormController = TextEditingController();
   List<Tech> toShowTechList = [];
 
   textFieldUpdate(String text) {
@@ -61,6 +60,7 @@ class _TechListPageState extends State<TechListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -78,34 +78,77 @@ class _TechListPageState extends State<TechListPage> {
           Center(
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
+              height: MediaQuery.of(context).size.height * 0.1,
               child: TextField(
-                controller: findTechFormController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: 'Поиск...',
                 ),
-                onChanged: textFieldUpdate(findTechFormController.text),
+                onChanged: (text) {
+                  textFieldUpdate(text);
+                },
               ),
             ),
           ),
-          ListView.builder(
-            itemCount: toShowTechList.length,
-            itemBuilder: (BuildContext context, int index) {
-              return TechCard(context, toShowTechList[index]);
-            },
-          )
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.75,
+            child: (toShowTechList.isNotEmpty)
+                ? ListView.builder(
+                    itemCount: toShowTechList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return TechCard(context, toShowTechList[index]);
+                    },
+                  )
+                : const Text("Нет совпадений"),
+          ),
         ],
       ),
     );
   }
 
   Widget TechCard(BuildContext context, Tech tech) {
-    return Text(tech.name);
-  }
-
-  @override
-  void dispose() {
-    findTechFormController.dispose();
-    super.dispose();
+    return Center(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.8,
+        height: 115,
+        child: Container(
+          margin: const EdgeInsets.symmetric(vertical: 5),
+          padding: const EdgeInsets.all(10),
+          decoration:
+              BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+          child: Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    tech.id,
+                  ),
+                  Text(
+                    tech.name,
+                  ),
+                  Text(
+                    tech.tech_state,
+                  ),
+                  Text(
+                    tech.category,
+                  ),
+                  Text(
+                    tech.department,
+                  ),
+                ],
+              ),
+              Expanded(child: Container()),
+              IconButton(
+                onPressed: () {
+                  print(tech.id);
+                },
+                icon: const Icon(Icons.edit),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

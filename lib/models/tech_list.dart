@@ -13,7 +13,7 @@ class TechList {
   List<Tech> findTech(String text){
     List<Tech> new_techs = [];
     for(Tech tech in _tech_list){
-      if (tech.toString().contains(text)){
+      if (tech.toString().toLowerCase().contains(text)){
         new_techs.add(tech);
       }
     }
