@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tech_company/pages/edit_tech_page.dart';
 import '../pages/main_page.dart';
 import '../pages/tech_list_page.dart';
 
@@ -21,6 +22,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       routes: {
         '/': (context) => MainPage(),
         '/tech_list_page': (context) => TechListPage(),
+        '/edit_tech_page': (context) => EditTechPage(),
       },
     );
   }

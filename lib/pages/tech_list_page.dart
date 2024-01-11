@@ -66,6 +66,14 @@ class _TechListPageState extends State<TechListPage> {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.pushNamed(context, '/edit_tech_page');
+            },
+          ),
+        ],
         title: const Text(
           "Список техники",
           style: TextStyle(fontSize: 30),
@@ -75,9 +83,10 @@ class _TechListPageState extends State<TechListPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(height: 10),
           Center(
             child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width * 0.9,
               height: MediaQuery.of(context).size.height * 0.1,
               child: TextField(
                 decoration: const InputDecoration(
@@ -91,16 +100,18 @@ class _TechListPageState extends State<TechListPage> {
             ),
           ),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.75,
             child: (toShowTechList.isNotEmpty)
-                ? ListView.builder(
-                    itemCount: toShowTechList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return TechCard(context, toShowTechList[index]);
-                    },
-                  )
+                ? Text("${toShowTechList.length} результатов")
                 : const Text("Нет совпадений"),
           ),
+          SizedBox(
+              height: MediaQuery.of(context).size.height * 0.7,
+              child: ListView.builder(
+                itemCount: toShowTechList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return TechCard(context, toShowTechList[index]);
+                },
+              )),
         ],
       ),
     );
@@ -109,7 +120,7 @@ class _TechListPageState extends State<TechListPage> {
   Widget TechCard(BuildContext context, Tech tech) {
     return Center(
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: MediaQuery.of(context).size.width * 0.9,
         height: 115,
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 5),
@@ -118,6 +129,26 @@ class _TechListPageState extends State<TechListPage> {
               BoxDecoration(border: Border.all(color: Colors.blueAccent)),
           child: Row(
             children: [
+              const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "ID: ",
+                  ),
+                  Text(
+                    "Название: ",
+                  ),
+                  Text(
+                    "Состояник: ",
+                  ),
+                  Text(
+                    "Категория: ",
+                  ),
+                  Text(
+                    "Отдел: ",
+                  ),
+                ],
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
