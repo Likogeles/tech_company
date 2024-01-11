@@ -1,7 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 import '../app_design.dart';
-import '../models/tech_list.dart';
 import '../models/tech.dart';
 
 class TechListPage extends StatefulWidget {
@@ -15,51 +17,26 @@ bool initFlag = true;
 
 class _TechListPageState extends State<TechListPage> {
   List<Tech> toShowTechList = [];
-  techListUpdate() {
-    if (initFlag) {
-      techList.addTech(Tech(
-          id: "1",
-          name: "Принтер",
-          department: "Охрана",
-          tech_state: "Работает",
-          category: "Общее"));
-      techList.addTech(Tech(
-          id: "2",
-          name: "Компьютер 1",
-          department: "Отдел продаж",
-          tech_state: "Работает",
-          category: "Личное"));
-      techList.addTech(Tech(
-          id: "3",
-          name: "Ксерокс",
-          department: "Отдел кадров",
-          tech_state: "Требуется ремонт",
-          category: "Общее"));
-      techList.addTech(Tech(
-          id: "4",
-          name: "Куллер",
-          department: "Отдел продаж",
-          tech_state: "В ремонте",
-          category: "Общее"));
-      techList.addTech(Tech(
-          id: "5",
-          name: "Кофемашина",
-          department: "Технический отдел",
-          tech_state: "Неисправно",
-          category: "Общее"));
-      initFlag = false;
-    }
-  }
 
   textFieldUpdate(String text) {
     toShowTechList = techList.findTech(text);
     setState(() {});
   }
 
+  bool updatingFlag = false;
+  techListUpdate() async {
+    updatingFlag = true;
+    setState(() {});
+
+    await techList.GetFromServer();
+    toShowTechList = techList.getAllTechs();
+    updatingFlag = false;
+    setState(() {});
+  }
+
   @override
   void initState() {
     techListUpdate();
-    toShowTechList = techList.getAllTechs();
     super.initState();
   }
 
@@ -105,19 +82,23 @@ class _TechListPageState extends State<TechListPage> {
               ),
             ),
           ),
-          SizedBox(
-            child: (toShowTechList.isNotEmpty)
-                ? Text("${toShowTechList.length} результатов")
-                : const Text("Нет совпадений"),
-          ),
-          SizedBox(
-              height: MediaQuery.of(context).size.height * 0.7,
-              child: ListView.builder(
-                itemCount: toShowTechList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return TechCard(context, toShowTechList[index]);
-                },
-              )),
+          (updatingFlag)
+              ? Container()
+              : SizedBox(
+                  child: (toShowTechList.isNotEmpty)
+                      ? Text("${toShowTechList.length} результатов")
+                      : const Text("Нет совпадений"),
+                ),
+          (updatingFlag)
+              ? const CircularProgressIndicator()
+              : SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.7,
+                  child: ListView.builder(
+                    itemCount: toShowTechList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return TechCard(context, toShowTechList[index]);
+                    },
+                  )),
         ],
       ),
     );
