@@ -49,16 +49,30 @@ class TechList {
     }
   }
 
-  updateTech(Tech new_tech) {
-    for (int i = 0; i < _tech_list.length; i++) {
-      if (_tech_list[i].id == new_tech.id) {
-        _tech_list[i] = new_tech;
-      }
+  updateTech(Tech new_tech) async {
+    http.Response response = http.Response('', 404);
+    try {
+      response = await http.get(Uri.parse(
+          "$url/update_tech?id=${new_tech.id}&name=${new_tech.name}&category=${new_tech.category}&tech_state=${new_tech.tech_state}&department=${new_tech.department}"));
+
+      String body = utf8.decode(response.bodyBytes);
+      print(body);
+    } catch (e) {
+      print("Ошибка обновления техники: $e");
     }
   }
 
-  remove(Tech tech) {
-    _tech_list.remove(tech);
+  remove(Tech tech) async{
+    http.Response response = http.Response('', 404);
+    try {
+      response = await http.get(Uri.parse(
+          "$url/remove_tech?id=${tech.id}"));
+
+      String body = utf8.decode(response.bodyBytes);
+      print(body);
+    } catch (e) {
+      print("Ошибка обновления техники: $e");
+    }
   }
 
   fromJson(List<dynamic> new_techs) {

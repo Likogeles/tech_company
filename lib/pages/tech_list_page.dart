@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 import '../app_design.dart';
 import '../models/tech.dart';
@@ -40,6 +37,20 @@ class _TechListPageState extends State<TechListPage> {
     super.initState();
   }
 
+  editTechPagePush(BuildContext context) async {
+    await Navigator.pushNamed(context, '/edit_tech_page');
+    setState(() {});
+  }
+
+  editTechPageUpdatePush(BuildContext context, Tech tech) async {
+    await Navigator.pushNamed(
+      context,
+      '/edit_tech_page',
+      arguments: {'tech': tech},
+    );
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +64,7 @@ class _TechListPageState extends State<TechListPage> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              Navigator.pushNamed(context, '/edit_tech_page');
+              editTechPagePush(context);
             },
           ),
         ],
@@ -159,11 +170,7 @@ class _TechListPageState extends State<TechListPage> {
               Expanded(child: Container()),
               IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/edit_tech_page',
-                    arguments: {'tech': tech},
-                  );
+                  editTechPageUpdatePush(context, tech);
                 },
                 icon: const Icon(Icons.edit),
               ),
