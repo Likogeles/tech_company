@@ -1,20 +1,20 @@
 class Tech {
   String id;
   String name;
-  String department;
-  String tech_state;
   String category;
+  String tech_state;
+  String department;
 
   Tech({
     required this.id,
     required this.name,
-    required this.department,
-    required this.tech_state,
     required this.category,
+    required this.tech_state,
+    required this.department,
   });
 
   @override
   String toString() {
-    return "$id $name $department $tech_state $category";
+    return "$id $name $category $tech_state $department";
   }
 }

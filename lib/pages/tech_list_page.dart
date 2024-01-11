@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tech_company/models/tech_list.dart';
 
+import '../app_design.dart';
+import '../models/tech_list.dart';
 import '../models/tech.dart';
 
 class TechListPage extends StatefulWidget {
@@ -10,49 +11,54 @@ class TechListPage extends StatefulWidget {
   State<TechListPage> createState() => _TechListPageState();
 }
 
+bool initFlag = true;
+
 class _TechListPageState extends State<TechListPage> {
-  TechList techList = TechList();
   List<Tech> toShowTechList = [];
+  techListUpdate() {
+    if (initFlag) {
+      techList.addTech(Tech(
+          id: "1",
+          name: "Принтер",
+          department: "Охрана",
+          tech_state: "Работает",
+          category: "Общее"));
+      techList.addTech(Tech(
+          id: "2",
+          name: "Компьютер 1",
+          department: "Отдел продаж",
+          tech_state: "Работает",
+          category: "Личное"));
+      techList.addTech(Tech(
+          id: "3",
+          name: "Ксерокс",
+          department: "Отдел кадров",
+          tech_state: "Требуется ремонт",
+          category: "Общее"));
+      techList.addTech(Tech(
+          id: "4",
+          name: "Куллер",
+          department: "Отдел продаж",
+          tech_state: "В ремонте",
+          category: "Общее"));
+      techList.addTech(Tech(
+          id: "5",
+          name: "Кофемашина",
+          department: "Технический отдел",
+          tech_state: "Неисправно",
+          category: "Общее"));
+      initFlag = false;
+    }
+  }
 
   textFieldUpdate(String text) {
-    print(123);
     toShowTechList = techList.findTech(text);
     setState(() {});
   }
 
   @override
   void initState() {
-    techList.addTech(Tech(
-        id: "1AB12",
-        name: "Tech_1",
-        department: "department_1",
-        tech_state: "tech_state_1",
-        category: "category_1"));
-    techList.addTech(Tech(
-        id: "1AB13",
-        name: "Tech_2",
-        department: "department_2",
-        tech_state: "tech_state_2",
-        category: "category_2"));
-    techList.addTech(Tech(
-        id: "1AB14",
-        name: "Tech_3",
-        department: "department_3",
-        tech_state: "tech_state_3",
-        category: "category_3"));
-    techList.addTech(Tech(
-        id: "1AB15",
-        name: "Tech_3",
-        department: "department_3",
-        tech_state: "tech_state_3",
-        category: "category_3"));
-    techList.addTech(Tech(
-        id: "1AB16",
-        name: "Tech_5",
-        department: "department_5",
-        tech_state: "tech_state_5",
-        category: "category_5"));
-
+    techListUpdate();
     toShowTechList = techList.getAllTechs();
     super.initState();
   }
@@ -139,7 +145,7 @@ class _TechListPageState extends State<TechListPage> {
                     "Название: ",
                   ),
                   Text(
-                    "Состояник: ",
+                    "Состояние: ",
                   ),
                   Text(
                     "Категория: ",
@@ -172,7 +178,11 @@ class _TechListPageState extends State<TechListPage> {
               Expanded(child: Container()),
               IconButton(
                 onPressed: () {
-                  print(tech.id);
+                  Navigator.pushNamed(
+                    context,
+                    '/edit_tech_page',
+                    arguments: {'tech': tech},
+                  );
                 },
                 icon: const Icon(Icons.edit),
               ),

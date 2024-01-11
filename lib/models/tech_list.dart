@@ -10,6 +10,7 @@ class TechList {
   List<Tech> getAllTechs(){
     return _tech_list;
   }
+
   List<Tech> findTech(String text){
     List<Tech> new_techs = [];
     for(Tech tech in _tech_list){
@@ -18,5 +19,16 @@ class TechList {
       }
     }
     return new_techs;
+  }
+
+  updateTech(Tech new_tech){
+    for (int i = 0; i < _tech_list.length; i++) {
+      if (_tech_list[i].id == new_tech.id){
+        _tech_list[i] = new_tech;
+      }
+    }
+  }
+  remove(Tech tech){
+    _tech_list.remove(tech);
   }
 }
