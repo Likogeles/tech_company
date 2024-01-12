@@ -32,7 +32,7 @@ class MainPage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                print("Сотрудники");
+                Navigator.pushNamed(context, '/user_list_page');
               },
               child: const Text(
                 "Сотрудники",

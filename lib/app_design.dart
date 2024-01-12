@@ -1,6 +1,9 @@
-import 'models/tech_list.dart';
+import '../models/user_list.dart';
+
+import '../models/tech_list.dart';
 
 TechList techList = TechList();
+UserList userList = UserList();
 
 const List<String> categoryList = ["Общее", "Личное"];
 const List<String> techStateList = ["Работает", "Требуется ремонт", "В ремонте", "Неисправно"];
