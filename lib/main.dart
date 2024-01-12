@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tech_company/pages/auth_page.dart';
 import 'package:tech_company/pages/edit_tech_page.dart';
 import '../pages/main_page.dart';
 import '../pages/tech_list_page.dart';
@@ -21,8 +22,10 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'TechCompany',
+      initialRoute: "auth_page",
       routes: {
-        '/': (context) => MainPage(),
+        'auth_page': (context) => AuthPage(),
+        '/': (context) => const MainPage(),
         '/tech_list_page': (context) => TechListPage(),
         '/edit_tech_page': (context) => EditTechPage(),
         '/user_list_page': (context) => UserListPage(),

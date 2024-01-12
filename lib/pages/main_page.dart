@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../app_design.dart';
+
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
 
@@ -30,15 +32,17 @@ class MainPage extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.width * 0.2,
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/user_list_page');
-              },
-              child: const Text(
-                "Сотрудники",
-                style: TextStyle(fontSize: 30),
-              ),
-            ),
+            (user_is_admin)
+                ? ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/user_list_page');
+                    },
+                    child: const Text(
+                      "Сотрудники",
+                      style: TextStyle(fontSize: 30),
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),
