@@ -14,13 +14,9 @@ class _EditUserPageState extends State<EditUserPage> {
   User? user;
 
   TextEditingController nameController = TextEditingController();
-
   TextEditingController surnameController = TextEditingController();
-
   TextEditingController emailController = TextEditingController();
-
   TextEditingController passwordController = TextEditingController();
-
   TextEditingController departmentController = TextEditingController();
 
   bool isAdminController = false;
@@ -28,33 +24,41 @@ class _EditUserPageState extends State<EditUserPage> {
   bool passwordVisible = true;
 
   saveUpdateButtonClick(BuildContext context) {
-    // if (nameController.text.isEmpty) {
-    //   ScaffoldMessenger.of(context)
-    //       .showSnackBar(const SnackBar(content: Text("Введите название!")));
-    //   return;
-    // }
-    // if (user == null) {
-    //   String new_id =
-    //       (int.parse(techList.getAllTechs().last.id) + 1).toString();
-    //   User new_user = User(
-    //     id: new_id,
-    //     name: nameController.text,
-    //     category: categoryController.text,
-    //     tech_state: techStateController.text,
-    //     department: departmentController.text,
-    //   );
-    //   techList.addTech(new_user);
-    // } else {
-    //   User new_user = User(
-    //     id: user!.id,
-    //     name: nameController.text,
-    //     category: categoryController.text,
-    //     tech_state: techStateController.text,
-    //     department: departmentController.text,
-    //   );
-    //   techList.updateTech(new_user);
-    // }
-    // Navigator.of(context).pop();
+    if (nameController.text.isEmpty ||
+        surnameController.text.isEmpty ||
+        emailController.text.isEmpty ||
+        passwordController.text.isEmpty ||
+        departmentController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Не все поля заполнены!")));
+      return;
+    }
+    if (user == null) {
+      String new_id =
+          (int.parse(userList.getAllUsers().last.id) + 1).toString();
+      User new_user = User(
+        id: new_id,
+        name: nameController.text,
+        surname: surnameController.text,
+        email: emailController.text,
+        password: passwordController.text,
+        department: departmentController.text,
+        isAdmin: isAdminController ? "1" : "0",
+      );
+      userList.addUser(new_user);
+    } else {
+      User new_user = User(
+        id: user!.id,
+        name: nameController.text,
+        surname: surnameController.text,
+        email: emailController.text,
+        password: passwordController.text,
+        department: departmentController.text,
+        isAdmin: isAdminController ? "1" : "0",
+      );
+      userList.updateUser(new_user);
+    }
+    Navigator.of(context).pop();
   }
 
   deleteButtonClick(BuildContext context) {
@@ -200,7 +204,7 @@ class _EditUserPageState extends State<EditUserPage> {
                   controller: departmentController,
                   helperText: "Отдел",
                   initialSelection: (user == null)
-                      ? categoryList.first
+                      ? departmentList.first
                       : departmentController.text,
                   dropdownMenuEntries:
                       departmentList.map<DropdownMenuEntry<String>>(

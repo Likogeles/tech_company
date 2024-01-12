@@ -16,6 +16,14 @@ class _UserListPageState extends State<UserListPage> {
   List<User> toShowUserList = [];
 
   bool updatingFlag = false;
+  userListUpdate() async {
+    updatingFlag = true;
+    setState(() {});
+    await userList.GetFromServer();
+    toShowUserList = userList.getAllUsers();
+    updatingFlag = false;
+    setState(() {});
+  }
 
   textFieldUpdate(String text) {
     toShowUserList = userList.findUser(text);
@@ -38,47 +46,7 @@ class _UserListPageState extends State<UserListPage> {
 
   @override
   void initState() {
-    userList.addUser(User(
-        id: "1",
-        name: "Иван",
-        surname: "Сидоров",
-        email: "ivan@ya.ru",
-        password: "qwerty1234",
-        department: "Охрана",
-        isAdmin: "1"));
-    userList.addUser(User(
-        id: "2",
-        name: "Федор",
-        surname: "Иванов",
-        email: "fedor@ya.ru",
-        password: "qwerty1234",
-        department: "Отдел продаж",
-        isAdmin: "1"));
-    userList.addUser(User(
-        id: "3",
-        name: "Сергей",
-        surname: "Петров",
-        email: "sergey@ya.ru",
-        password: "qwerty1234",
-        department: "Технический отдел",
-        isAdmin: "0"));
-    userList.addUser(User(
-        id: "4",
-        name: "Петр",
-        surname: "Сергеев",
-        email: "petr@ya.ru",
-        password: "qwerty1234",
-        department: "Отдел кадров",
-        isAdmin: "0"));
-    userList.addUser(User(
-        id: "5",
-        name: "Владимир",
-        surname: "Маяковский",
-        email: "vladimir@ya.ru",
-        password: "qwerty1234",
-        department: "Охрана",
-        isAdmin: "0"));
-    toShowUserList = userList.getAllUsers();
+    userListUpdate();
     super.initState();
   }
 

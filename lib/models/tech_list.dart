@@ -71,7 +71,7 @@ class TechList {
       String body = utf8.decode(response.bodyBytes);
       print(body);
     } catch (e) {
-      print("Ошибка обновления техники: $e");
+      print("Ошибка удаления техники: $e");
     }
   }
 
